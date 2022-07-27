@@ -1,6 +1,8 @@
 #include <any>
+#include <array>
 #include <iostream>
 #include <string_view>
+#include <tuple>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -70,9 +72,18 @@ void std_string_view(std::string_view a)
     std::cout << __func__ << "(\"" << a << "\")" << '\n';
 }
 
+void int_const_ref_string(int a, const std::string& b)
+{
+    std::cout << __func__ << "(" << a
+              << ", "
+                 "\""
+              << b << "\")" << '\n';
+}
+
 int main()
 {
     using namespace std::literals::string_view_literals;
+    using namespace std::string_literals;
 
     {
         using xzr::handler;
@@ -93,6 +104,12 @@ int main()
         {
             const params ps{"string_view"sv};
             const handler h{std_string_view};
+
+            h(ps);
+        }
+        {
+            const params ps{1, "string"s};
+            const handler h{int_const_ref_string};
 
             h(ps);
         }
@@ -120,6 +137,38 @@ int main()
             catch (const std::exception& e)
             {
                 std::cout << e.what() << '\n';
+            }
+        }
+        {
+            std::cout << "\n";
+            using id_handler = std::tuple<std::string_view, handler>;
+            using id_params = std::tuple<std::string_view, params>;
+
+            const auto handlers{std::array<id_handler, 2>{
+                {{"1", int_int}, {"2", std_string_view}}}};
+            const auto parameters{std::array<id_params, 2>{
+                {{"1", {1, 22}}, {"2", {"string_view"sv}}}}};
+
+            for (const auto& ps : parameters)
+            {
+                const auto id{std::get<std::string_view>(ps)};
+                const auto match{std::find_if(
+                    handlers.cbegin(),
+                    handlers.cend(),
+                    [&id](const auto& handler) {
+                        return id == std::get<std::string_view>(handler);
+                    })};
+                if (match != handlers.cend())
+                {
+                    try
+                    {
+                        std::get<handler> (*match)(std::get<params>(ps));
+                    }
+                    catch (const std::exception& e)
+                    {
+                        std::cout << e.what() << '\n';
+                    }
+                }
             }
         }
     }
