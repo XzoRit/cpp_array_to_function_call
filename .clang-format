@@ -1,0 +1,15 @@
+---
+Language:        Cpp
+BasedOnStyle:    Microsoft
+
+AllowAllArgumentsOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AlwaysBreakTemplateDeclarations: Yes
+BinPackArguments: false
+BinPackParameters: false
+BreakConstructorInitializers: BeforeComma
+ColumnLimit: 80
+FixNamespaceComments: false
+PointerAlignment: Left
+...

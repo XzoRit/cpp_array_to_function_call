@@ -1,0 +1,22 @@
+boost.use-project
+    ;
+
+constant sources
+    : [ glob *.cpp ]
+    ;
+
+exe exe
+    : $(sources)
+      /lib//lib
+    ;
+
+import testing
+    ;
+
+unit-test run
+    : exe
+    :
+    ;
+
+always run
+    ;

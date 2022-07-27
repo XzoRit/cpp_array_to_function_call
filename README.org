@@ -1,0 +1,56 @@
+* array to function calls
+This folder contains the project structure.
+Clone this repository delete the .git folder rename the project folder to your project name.
+** build files
+Boost.Build and CMake build files are available.
+*** Boost.Build
+**** build
+#+BEGIN_SRC bash
+# build and run all targets
+b2
+# build lib
+b2 lib//lib
+# build/run tests of lib
+b2 lib//test
+# build app
+b2 app//exe
+# build/run app
+b2 app//run
+# if you want to use a different compiler
+b2 toolset=gcc
+#+END_SRC
+*** CMake
+CMake presets for gcc and clang are provided.
+#+BEGIN_SRC bash
+# configure
+cmake --preset clang
+# build
+cmake --build --preset clang
+# list all available targets
+cmake --build --preset clang --target help
+# test
+ctest --preset clang
+ctest --preset clang -R 'app::exe'
+ctest --preset clang -R 'lib::test'
+#+END_SRC
+** formatting
+*** Clang-Format file is available.
+#+BEGIN_SRC bash
+# recursively format all source files
+find ./ -type f -name '*.?pp' -exec clang-format -i {} \;
+#+END_SRC
+*** cmake-format configuration
+see [[https://github.com/cheshirekow/cmake_format][cmake-format]]
+#+BEGIN_SRC bash
+# recursively format all cmake files
+find . -type f -name 'CMakeLists.txt' -execdir cmake-format -i {} \;
+#+END_SRC
+** compile_comand.json
+cmake is configured to produce a compile_comand.json.
+Most tools expect it to be in the root directory of the project.
+This is achieved by creating a link e.g.:
+#+BEGIN_SRC bash
+# assumes . is project root and
+# cmake generated the build files into the folder named 'build'
+ln -s build/clang/compile_commands.json
+#+END_SRC

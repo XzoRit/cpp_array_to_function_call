@@ -1,0 +1,117 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "gcc",
+      "inherits": [
+        "base"
+      ],
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "clang",
+      "inherits": [
+        "base"
+      ],
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
+    },
+    {
+      "name": "based",
+      "hidden": true,
+      "inherits": [
+        "base"
+      ],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "gccd",
+      "inherits": [
+        "based",
+        "gcc"
+      ]
+    },
+    {
+      "name": "clangd",
+      "inherits": [
+        "based",
+        "clang"
+      ]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "gcc",
+      "configurePreset": "gcc"
+    },
+    {
+      "name": "clang",
+      "configurePreset": "clang"
+    },
+    {
+      "name": "gccd",
+      "configurePreset": "gccd"
+    },
+    {
+      "name": "clangd",
+      "configurePreset": "clangd"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "output": {
+        "verbosity": "extra"
+      }
+    },
+    {
+      "name": "gcc",
+      "configurePreset": "gcc",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "clang",
+      "configurePreset": "clang",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "gccd",
+      "configurePreset": "gccd",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "clangd",
+      "configurePreset": "clangd",
+      "inherits": [
+        "base"
+      ]
+    }
+  ]
+}
